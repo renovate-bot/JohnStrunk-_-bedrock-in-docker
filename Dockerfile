@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:bionic as base
 LABEL maintainer="tomasz@chorwat.pl"
 LABEL project="https://github.com/tchorwat/bedrock-in-docker"
 
