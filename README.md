@@ -102,6 +102,25 @@ docker run -d -p 19132:19132/udp \
 docker rm bedrock_1_v1
 ```
 
+## S3 Support
+Tag tchorwat/bedrock-in-docker:__s3__ support storing backup of worlds and config files in s3 bucket. Two additional environment variables was added:
+- BEDROCK_IN_DOCKER_BACKUP_s3_URI - uri to bucket and prefix to store backup data, by example: `s3://<your-bucket>/<your-prefix>`
+- BEDROCK_IN_DOCKER_CONFIG_s3_URI - uri to bucket and prefix to store config files, by example: `s3://<your-bucket>/<your-prefix>/config`. Only:`server.properties`, `permissions.json`, `whitelist.json` will be stored.
+
+To initialize new container just put your files inside `s3://<your-bucket>/<your-prefix>/config` and start container:
+
+```
+λ docker run -d --restart unless-stopped --name <your-container-name> \
+  -p 19132:19132/udp -p 19133:19133/udp \
+  -e BEDROCK_IN_DOCKER_BACKUP_s3_URI=s3://<your-bucket>/<your-container-name> \
+  -e BEDROCK_IN_DOCKER_CONFIG_s3_URI=s3://<your-bucket>/<your-container-name>/config \
+  -e AWS_ACCESS_KEY_ID=<your-key-id> \
+  -e AWS_SECRET_ACCESS_KEY=<your-secret-key> \
+  tchorwat/bedrock-in-docker:s3
+```
+
+Hint 1: if your run your container inside AWS infrastructure consider use IAM role instead passing credentials.
+Hinr 2: Don't forget to set lifecycle rule for your bucket to manage backup retention.
 
 ## Real examples
 

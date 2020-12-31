@@ -1,0 +1,13 @@
+FROM tchorwat/bedrock-in-docker
+LABEL maintainer="tomasz@chorwat.pl"
+LABEL project="https://github.com/tchorwat/bedrock-in-docker"
+
+# Install awscli
+RUN wget -q -O "/root/awscliv2.zip" https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+  && unzip /root/awscliv2.zip -d /root/ \
+  && /root/aws/install \
+  && rm /root/awscliv2.zip \
+  && rm -R /root/aws
+
+ENV BEDROCK_IN_DOCKER_BACKUP_s3_URI=
+ENV BEDROCK_IN_DOCKER_CONFIG_s3_URI=

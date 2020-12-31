@@ -6,16 +6,14 @@ if [ "$1" = 'bedrock_server' ]; then
 
   echo 'Starting bedrock-in-docker deamon...'
   rm -f /bedrock/bedrock_screen.log
-  tail -f --retry --sleep-interval=1 --max-unchanged-stats=300 /bedrock/bedrock_screen.log &
+  tail -f --retry --sleep-interval=1 --max-unchanged-stats=300 /bedrock/bedrock_screen.log 2> /dev/null &
 
-  screen -wipe
   while true
   do
     MaxGracefulTime=${BEDROCK_IN_DOCKER_TERM_MIN:-1}
 
-    /scripts/terminate.sh $MaxGracefulTime|| true \
-    && /scripts/update.sh || true \
-    && /scripts/restore.sh || true
+    /scripts/terminate.sh $MaxGracefulTime || true
+    /scripts/update.sh || true
 
     if ! screen -list | grep -q "bedrock"; then
       screen -d -m -S bedrock -L -Logfile /bedrock/bedrock_screen.log bash -c "/scripts/start.sh"
@@ -32,6 +30,11 @@ if [ "$1" = 'bedrock_server' ]; then
       sleep_seconds=$(( $sleep_seconds + 86400))
     fi
     echo "Bedrock will run for next $sleep_seconds seconds"
+    if [ $BEDROCK_IN_DOCKER_FORCE_1_MIN_RESTART == "1" ]
+    then
+      echo "Forcing 1min restarts."
+      sleep_seconds=60
+    fi
     sleep $sleep_seconds &
     wait $!
   done
