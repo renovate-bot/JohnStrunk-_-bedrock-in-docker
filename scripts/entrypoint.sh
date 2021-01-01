@@ -7,19 +7,23 @@ if [ "$1" = 'bedrock_server' ]; then
   echo 'Starting bedrock-in-docker deamon...'
   rm -f /bedrock/bedrock_screen.log
   tail -f --retry --sleep-interval=1 --max-unchanged-stats=300 /bedrock/bedrock_screen.log 2> /dev/null &
+  screen -wipe
 
   while true
   do
     MaxGracefulTime=${BEDROCK_IN_DOCKER_TERM_MIN:-1}
 
-    /scripts/terminate.sh $MaxGracefulTime || true
-    /scripts/update.sh || true
+    (
+      /scripts/terminate.sh $MaxGracefulTime || true
+      /scripts/update.sh || true
 
-    if ! screen -list | grep -q "bedrock"; then
-      screen -d -m -S bedrock -L -Logfile /bedrock/bedrock_screen.log bash -c "/scripts/start.sh"
-    else
-      exit 1
-    fi
+      if ! screen -list | grep -q "bedrock"; then
+        screen -d -m -S bedrock -L -Logfile /bedrock/bedrock_screen.log bash -c "/scripts/start.sh"
+      else
+        echo 'FATAL: Unexpected screen bedrock already there'
+      fi
+    ) || echo 'Some error occured'
+
     RestartTime=${BEDROCK_IN_DOCKER_RESTART_TIME_UTC}
     current_epoch=$(date +%s)
     target_epoch=$(date -d $RestartTime +%s)
