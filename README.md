@@ -145,4 +145,4 @@ This Docker image is built on ubuntu Docker images https://hub.docker.com/_/ubun
 
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
-View [**bedrock-in-docker** project MIT license](./LICENSE)
+View [**bedrock-in-docker** project MIT license](https://github.com/tchorwat/bedrock-in-docker/blob/main/LICENSE)
