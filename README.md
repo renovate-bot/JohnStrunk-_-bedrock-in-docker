@@ -122,6 +122,14 @@ To initialize new container just put your files inside `s3://<your-bucket>/<your
 Hint 1: if your run your container inside AWS infrastructure consider use IAM role instead passing credentials.
 Hinr 2: Don't forget to set lifecycle rule for your bucket to manage backup retention.
 
+## Releases
+
+### v0.1.0 Initial (alpha) release
+This is the initial (alpha) release of bedrock-in-docker.
+
+Features:
+- Support of s3 & local path backup was introduced.
+
 ## Real examples
 
 ### 1
