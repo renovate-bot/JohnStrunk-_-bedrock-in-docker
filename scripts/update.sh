@@ -1,6 +1,6 @@
 #!/bin/bash
 # Test internet connectivity first
-wget --quiet http://www.minecraft.net/ -O /dev/null
+wget --quiet -U "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)" --timeout=30 http://www.minecraft.net/ -O /dev/null
 if [ "$?" != 0 ]; then
     echo "Unable to connect to update website (internet connection may be down).  Skipping update ..."
 else
@@ -9,7 +9,7 @@ else
       DownloadURL="$BEDROCK_DOWNLOAD_URL"
     else
       # Download server index.html to check latest version
-      wget --no-verbose -O /downloads/version.html https://minecraft.net/en-us/download/server/bedrock/
+      wget --no-verbose -U "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)" --timeout=30 -O /downloads/version.html https://minecraft.net/en-us/download/server/bedrock/
       DownloadURL=$(grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' /downloads/version.html)
     fi
     DownloadFile=$(echo "$DownloadURL" | sed 's#.*/##')
