@@ -4,9 +4,14 @@ wget --quiet http://www.minecraft.net/ -O /dev/null
 if [ "$?" != 0 ]; then
     echo "Unable to connect to update website (internet connection may be down).  Skipping update ..."
 else
-    # Download server index.html to check latest version
-    wget --no-verbose -O /downloads/version.html https://minecraft.net/en-us/download/server/bedrock/
-    DownloadURL=$(grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' /downloads/version.html)
+    if [ "$BEDROCK_DOWNLOAD_URL" ]; then
+      # Use specified version
+      DownloadURL="$BEDROCK_DOWNLOAD_URL"
+    else
+      # Download server index.html to check latest version
+      wget --no-verbose -O /downloads/version.html https://minecraft.net/en-us/download/server/bedrock/
+      DownloadURL=$(grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' /downloads/version.html)
+    fi
     DownloadFile=$(echo "$DownloadURL" | sed 's#.*/##')
 
     # Download latest version of Minecraft Bedrock dedicated server if a new one is available
