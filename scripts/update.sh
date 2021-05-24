@@ -28,5 +28,6 @@ else
         else
           unzip -q -o "/downloads/$DownloadFile" -d /bedrock/
         fi
+        chmod +x /bedrock/bedrock_server
     fi
 fi
