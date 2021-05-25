@@ -124,6 +124,13 @@ Hinr 2: Don't forget to set lifecycle rule for your bucket to manage backup rete
 
 ## Releases
 
+### v0.1.1 Initial (alpha) release hotfix
+Features:
+- Introduce BEDROCK_DOWNLOAD_URL attribute, to allow customize download URL
+
+Bugfixes:
+- Add custom User-Agent to all calls for http://www.minecraft.net/ (https://github.com/tchorwat/bedrock-in-docker/issues/2)
+
 ### v0.1.0 Initial (alpha) release
 This is the initial (alpha) release of bedrock-in-docker.
 
