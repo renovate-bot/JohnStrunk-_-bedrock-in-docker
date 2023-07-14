@@ -14,10 +14,13 @@ if [ "$1" = 'bedrock_server' ]; then
     MaxGracefulTime=${BEDROCK_IN_DOCKER_TERM_MIN:-1}
 
     (
-      /scripts/terminate.sh $MaxGracefulTime || true
+      /scripts/terminate.sh "$MaxGracefulTime" || true
       /scripts/update.sh || true
 
-      if ! screen -list | grep -q "bedrock"; then
+      echo 'Configuring server properties'
+      /scripts/configure-server.sh
+
+      if ! screen -list bedrock; then
         screen -d -m -S bedrock -L -Logfile /bedrock/bedrock_screen.log bash -c "/scripts/start.sh"
       else
         echo 'FATAL: Unexpected screen bedrock already there'
@@ -29,12 +32,12 @@ if [ "$1" = 'bedrock_server' ]; then
     target_epoch=$(date -d $RestartTime +%s)
 
     sleep_seconds=$(( $target_epoch - $current_epoch ))
-    if (( $sleep_seconds <= 300 ))
+    if (( sleep_seconds <= 300 ))
     then
-      sleep_seconds=$(( $sleep_seconds + 86400))
+      sleep_seconds=$(( sleep_seconds + 86400))
     fi
     echo "Bedrock will run for next $sleep_seconds seconds"
-    if [ $BEDROCK_IN_DOCKER_FORCE_1_MIN_RESTART == "1" ]
+    if [ "$BEDROCK_IN_DOCKER_FORCE_1_MIN_RESTART" == "1" ]
     then
       echo "Forcing 1min restarts."
       sleep_seconds=60

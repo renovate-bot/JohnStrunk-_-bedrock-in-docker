@@ -20,14 +20,14 @@ else
         echo "Minecraft Bedrock server is up to date..."
     else
         echo "New version $DownloadFile is available.  Updating Minecraft Bedrock server ..."
-        rm -f /downloads/*
+        #rm -f /downloads/*
         wget --no-verbose -O "/downloads/$DownloadFile" "$DownloadURL"
-        if [ -f "/bedrock/server.properties" ]
-        then
-          unzip -q -o "/downloads/$DownloadFile" -x "*server.properties*" "*permissions.json*" "*whitelist.json*" -d /bedrock/
-        else
-          unzip -q -o "/downloads/$DownloadFile" -d /bedrock/
-        fi
-        chmod +x /bedrock/bedrock_server
     fi
+    if [ -f "/bedrock/server.properties" ]
+    then
+      unzip -q -o "/downloads/$DownloadFile" -x "*server.properties*" "*permissions.json*" "*allowlist.json*" "*whitelist.json*" -d /bedrock/
+    else
+      unzip -q -o "/downloads/$DownloadFile" -d /bedrock/
+    fi
+    chmod a+x /bedrock/bedrock_server
 fi

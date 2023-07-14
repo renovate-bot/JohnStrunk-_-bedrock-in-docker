@@ -1,6 +1,6 @@
 #!/bin/bash
 # Check if server is running
-if ! screen -list | grep -q "bedrock"; then
+if ! screen -list "bedrock"; then
   echo "Server is not currently running!"
 else
   # Stop the server
@@ -31,7 +31,7 @@ else
   # Wait up to 60 seconds for server to close
   Its=0
   while [ $Its -lt 60 ]; do
-    if ! screen -list | grep -q "bedrock"; then
+    if ! screen -list "bedrock"; then
       break
     fi
     echo "Wait for bedrock until forcing stop ( $Its seconds)."
@@ -41,7 +41,7 @@ else
   done
 
   # Force quit if server is still open
-  if screen -list | grep -q "bedrock"; then
+  if screen -list "bedrock"; then
     echo "Minecraft server still hasn't stopped after 60 seconds, closing screen manually"
     screen -S bedrock -X quit
   fi
