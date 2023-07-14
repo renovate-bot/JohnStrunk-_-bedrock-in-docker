@@ -1,6 +1,5 @@
 FROM ubuntu:jammy as base
 
-
 # Install dependencies
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -37,3 +36,7 @@ WORKDIR /bedrock
 USER bedrock
 ENTRYPOINT ["/scripts/entrypoint.sh"]
 CMD ["bedrock_server"]
+
+LABEL org.opencontainers.image.source=https://github.com/JohnStrunk/bedrock-in-docker
+LABEL org.opencontainers.image.description="Minecraft Bedrock Server in Docker"
+LABEL org.opencontainers.image.licenses=MIT
