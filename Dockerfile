@@ -27,7 +27,6 @@ RUN useradd -m -d /bedrock bedrock \
   && ln -s /scripts/connect-to-console.sh /usr/local/bin/console
 
 ENV BEDROCK_IN_DOCKER_TERM_MIN="1"
-ENV BEDROCK_IN_DOCKER_FORCE_RESTORE="0"
 ENV BEDROCK_IN_DOCKER_FORCE_1_MIN_RESTART="0"
 ENV BEDROCK_IN_DOCKER_RESTART_TIME_UTC="03:00"
 
