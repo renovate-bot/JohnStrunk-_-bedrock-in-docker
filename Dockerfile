@@ -9,6 +9,7 @@ RUN apt-get update \
     screen \
     restic \
     unzip \
+    vim \
     wget \
   && rm -rf /var/lib/apt/lists/* \
   && restic self-update
