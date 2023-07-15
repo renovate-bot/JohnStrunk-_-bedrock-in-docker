@@ -9,6 +9,9 @@ if [ "$1" = 'bedrock_server' ]; then
   tail -f --retry --sleep-interval=1 --max-unchanged-stats=300 /bedrock/bedrock_screen.log 2> /dev/null &
   screen -wipe
 
+  /scripts/stop.sh 0 || true
+  /scripts/restore.sh || true
+
   while true
   do
     MaxGracefulTime=${BEDROCK_IN_DOCKER_TERM_MIN:-1}

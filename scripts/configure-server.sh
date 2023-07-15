@@ -10,9 +10,8 @@ for var in "${!MC_@}"; do
     value=${!var}
     echo "Setting '$name' to '$value'"
     # https://stackoverflow.com/a/66949954
-    if ! sed --quiet -Ei "s/^$name.*/$name=$value/;t1;b2;:1;h;:2;p;\${g;s/.+//;tok;q1;:ok}" server.properties; then
+    if ! sed --quiet -i "s/^$name.*/$name=$value/;t1;b2;:1;h;:2;p;\${g;s/.+//;tok;q1;:ok}" server.properties; then
         echo "$name wasn't found in the file... adding"
         echo "$name=$value" >> server.properties
     fi
-    #sed -Ei "s/^$name.*\$/$name=$value/" server.properties || echo "$name=$value" >> server.properties
 done
