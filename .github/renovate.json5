@@ -36,6 +36,13 @@
       "pinDigests": false
     },
     {
+      "description": "Update all gh actions in a single PR because Mergify has trouble updating",
+      "groupName": "gh-actions",
+      "matchManagers": [
+        "github-actions"
+      ]
+    },
+    {
       "description": "Update renovatebot/pre-commit-hooks weekly to decrease noise",
       "matchPackageNames": [
         "renovatebot/pre-commit-hooks"
