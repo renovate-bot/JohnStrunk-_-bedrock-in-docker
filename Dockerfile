@@ -4,15 +4,14 @@ FROM ubuntu:jammy@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    libcurl4 \
-    screen \
-    restic \
-    unzip \
-    vim \
-    wget \
-  && rm -rf /var/lib/apt/lists/* \
-  && restic self-update
+  ca-certificates \
+  libcurl4 \
+  screen \
+  restic \
+  unzip \
+  vim \
+  wget \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy projects scripts
 COPY ./scripts /scripts
