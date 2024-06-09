@@ -1,4 +1,4 @@
-FROM ubuntu:jammy as base
+FROM ubuntu:jammy@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac as base
 
 # Install dependencies
 # hadolint ignore=DL3008
