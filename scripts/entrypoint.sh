@@ -32,9 +32,9 @@ if [ "$1" = 'bedrock_server' ]; then
 
     RestartTime=${BEDROCK_IN_DOCKER_RESTART_TIME_UTC}
     current_epoch=$(date +%s)
-    target_epoch=$(date -d $RestartTime +%s)
+    target_epoch=$(date -d "$RestartTime" +%s)
 
-    sleep_seconds=$(( $target_epoch - $current_epoch ))
+    sleep_seconds=$(( target_epoch - current_epoch ))
     if (( sleep_seconds <= 300 ))
     then
       sleep_seconds=$(( sleep_seconds + 86400))
