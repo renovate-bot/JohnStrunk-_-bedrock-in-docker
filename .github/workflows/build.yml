@@ -36,3 +36,13 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/johnstrunk/bedrock-in-docker:latest
+
+  # This is a dummy job to determine success of the CI workflow
+  ci-success:
+    name: CI Workflow - Success
+    needs:
+      - docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success
+        run: echo "Previous jobs were successful"
