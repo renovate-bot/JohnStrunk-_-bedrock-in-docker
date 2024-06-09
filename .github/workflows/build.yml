@@ -1,9 +1,13 @@
+---
+# yamllint disable rule:line-length
+
 name: build
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches:
       - 'main'
+    tags: ["*"]
   pull_request:
     branches:
       - 'main'
@@ -12,7 +16,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker:
+  pre-commit:
+    name: "Pre-commit checks"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # https://github.com/actions/checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      # https://github.com/hadolint/hadolint/issues/886#issuecomment-2043649041
+      - name: Install hadolint
+        run: |
+          sudo wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64
+          sudo chmod a+x /usr/local/bin/hadolint
+
+      - name: Set up Python
+        id: setup-py
+        # https://github.com/actions/setup-python
+        # yamllint disable-line rule:line-length
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Enable cache for pre-commit hooks
+        # https://github.com/actions/cache
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ steps.setup-py.outputs.python-version}}|${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            pre-commit|${{ steps.setup-py.outputs.python-version}}|
+            pre-commit|
+
+      - name: Run pre-commit checks
+        run: pipx run pre-commit run -a
+
+      - name: Run pre-commit gc
+        run: pipx run pre-commit gc
+
+  docker-in-bedrock:
     runs-on: ubuntu-latest
 
     permissions:
@@ -40,11 +83,37 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/johnstrunk/bedrock-in-docker:latest
 
+  # This job builds the devcontainer image, but doesn't do anything with it.
+  # It's just here to make sure the image builds successfully.
+  devcontainer:
+    name: "Build devcontainer image"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # https://github.com/actions/checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - name: Set up Docker Buildx
+        # https://github.com/docker/setup-buildx-action
+        uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3.3.0
+        id: setup-buildx
+
+      - name: Expose variables required for actions cache
+        # https://github.com/crazy-max/ghaction-github-runtime
+        uses: crazy-max/ghaction-github-runtime@b3a9207c0e1ef41f4cf215303c976869d0c2c1c4 # v3.0.0
+
+      - name: Build devcontainer
+        run: npx -- @devcontainers/cli build --workspace-folder . --cache-from type=gha,scope=devcontainer --cache-to type=gha,mode=min,scope=devcontainer
+
+
   # This is a dummy job to determine success of the CI workflow
   ci-success:
     name: CI Workflow - Success
     needs:
-      - docker
+      - devcontainer
+      - docker-in-bedrock
+      - pre-commit
     runs-on: ubuntu-latest
     steps:
       - name: Success

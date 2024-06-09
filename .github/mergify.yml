@@ -13,7 +13,7 @@ pull_request_rules:
     conditions:
       - or:
           - author=JohnStrunk
-          - author=renovate-bot # Renovate bot - dependency updates
+          - author=renovate-bot
     actions:
       queue:
         merge_method: merge

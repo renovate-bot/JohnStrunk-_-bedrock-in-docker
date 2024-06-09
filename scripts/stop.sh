@@ -5,8 +5,8 @@ if ! screen -list "bedrock"; then
 else
   # Stop the server
   CountdownTime=$1
-  while [ $CountdownTime -gt 0 ]; do
-    if [ $CountdownTime -eq 1 ]; then
+  while [ "$CountdownTime" -gt 0 ]; do
+    if [ "$CountdownTime" -eq 1 ]; then
       screen -Rd bedrock -X stuff "say Stopping server in 60 seconds...$(printf '\r')"
       sleep 30 &
       wait $!
