@@ -3,7 +3,7 @@
 {
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:noble@sha256:754d3744ba8e86073ab6d2e780727f6093e9d140c6de8c3b053554ee1fb38bd9",
+	"image": "mcr.microsoft.com/devcontainers/base:noble@sha256:523f4f746606453e7c45e546093a7f5744b4ccc066704196a072d54cd4d40f95",
 	// Available features: https://containers.dev/features
 	"features": {
 		"ghcr.io/devcontainers/features/node:1.5.0": {},
