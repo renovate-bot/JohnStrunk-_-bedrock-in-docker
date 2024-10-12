@@ -1,4 +1,4 @@
-FROM ubuntu:noble@sha256:b359f1067efa76f37863778f7b6d0e8d911e3ee8efa807ad01fbf5dc1ef9006b as base
+FROM ubuntu:noble@sha256:ee6860ab126bb8291052401af00acad20d69c16e46579a47dac1c57cd4688446 as base
 
 # Install dependencies
 # hadolint ignore=DL3008
