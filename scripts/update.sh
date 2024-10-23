@@ -9,7 +9,7 @@ else
     else
       # Download server index.html to check latest version
       wget --no-verbose -U "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)" --timeout=30 -O /downloads/version.html https://minecraft.net/en-us/download/server/bedrock/
-      DownloadURL=$(grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' /downloads/version.html)
+      DownloadURL=$(grep -o 'https://www.minecraft.net/bedrockdedicatedserver/bin-linux/[^"]*' /downloads/version.html)
     fi
     # shellcheck disable=SC2001
     DownloadFile=$(echo "$DownloadURL" | sed 's#.*/##')
