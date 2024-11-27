@@ -1,30 +1,25 @@
 ---
 # https://docs.mergify.com/
-
 pull_request_rules:
   - name: Automatic merge on approval
     conditions:
       - "#approved-reviews-by>=1"
-    actions:
-      queue:
-        merge_method: merge
-
-  - name: Automatic merge PRs from trusted contributors
-    conditions:
-      - or:
-          - author=JohnStrunk
-          - author=renovate-bot
-    actions:
-      queue:
-        merge_method: merge
-
-queue_rules:
-  - name: default
-    # These queue rules are also applied to all pull requests that funnel to
-    # this queue.
-    queue_conditions:
-      - base=main
       - "#changes-requested-reviews-by=0"
       - label!=do-not-merge
-      # List the required status checks
-      - status-success=CI Workflow - Success
+      - check-success="Successful CI"
+    actions:
+      merge:
+        method: merge
+
+  - name: Automatic merge trusted PRs
+    conditions:
+      - and:
+          - or:
+              - author=JohnStrunk
+              - author=renovate-bot
+      - "#changes-requested-reviews-by=0"
+      - label!=do-not-merge
+      - check-success="Successful CI"
+    actions:
+      merge:
+        method: merge
