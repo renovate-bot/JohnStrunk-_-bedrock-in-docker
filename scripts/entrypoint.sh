@@ -40,11 +40,7 @@ if [ "$1" = 'bedrock_server' ]; then
       sleep_seconds=$(( sleep_seconds + 86400))
     fi
     echo "Bedrock will run for next $sleep_seconds seconds"
-    if [ "$BEDROCK_IN_DOCKER_FORCE_1_MIN_RESTART" == "1" ]
-    then
-      echo "Forcing 1min restarts."
-      sleep_seconds=60
-    fi
+    sleep 30; /scripts/send-console-commands.sh
     sleep $sleep_seconds &
     wait $!
   done
