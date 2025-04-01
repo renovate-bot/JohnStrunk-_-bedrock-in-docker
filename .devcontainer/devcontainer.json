@@ -6,7 +6,7 @@
 	"image": "mcr.microsoft.com/devcontainers/base:noble@sha256:4c8b0c0465d6452808c2c97920da968fee7a128ba3bcdf2c79e2b6684c9b65dc",
 	// Available features: https://containers.dev/features
 	"features": {
-		"ghcr.io/devcontainers/features/node:1.6.1": {},
+		"ghcr.io/devcontainers/features/node:1.6.2": {},
 		"ghcr.io/devcontainers-contrib/features/pre-commit:2.0.17": {},
 		"ghcr.io/dhoeric/features/hadolint:1.0.0": {}
 	},
