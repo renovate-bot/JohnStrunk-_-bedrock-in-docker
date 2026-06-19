@@ -1,4 +1,4 @@
-FROM ubuntu:resolute@sha256:e153663f92c94118ff22a5dc397b59b351ffd695480566debb5850e017e5937a as base
+FROM ubuntu:resolute@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba as base
 
 # Install dependencies
 # hadolint ignore=DL3008
